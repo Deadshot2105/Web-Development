@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+</head>
+<body>
+
+
+
+    <h1 class="background">Javascript</h1>
+    <p>JavaScript is a versatile programming language primarily used for web development. <p> It enables dynamic content on websites, interactive elements, and web applications. </p>
+    <p>JavaScript is used to add interactivity and functionality to web pages. It allows developers to manipulate the content of a webpage dynamically. </p> 
+    <p>JavaScript is primarily executed on the client-side (user's web browser), making it ideal for creating dynamic and interactive user experiences. </p>
+    <p>JavaScript syntax is similar to other programming languages like Java and C, making it relatively easy to learn for developers familiar with these languages.</p> 
+    <p>It enhances static HTML pages by adding behaviors and functionalities, such as clicks, form submissions, and keyboard inputs. </p>
+
+    <h2 class="background">Features of JavaScript</h2>
+    <ul>
+        <li>Dynamic Content: JavaScript can manipulate the HTML and CSS of a webpage in real-time.</li>
+        <li>Event Handling: It provides mechanisms for handling user actions like clicks and keyboard inputs.</li>
+        <li>DOM Manipulation: JavaScript can interact with the Document Object Model (DOM) of a webpage, enabling the addition, removal, or modification of elements.</li>
+        <li>Client-Side Validation: It can validate user inputs on forms before submission, reducing server load and improving user experience.</li>
+        <li>Asynchronous Programming: JavaScript supports asynchronous programming through features like callbacks, promises, and async/await, allowing non-blocking execution of code.</li>
+    </ul>
+
+    <h2 class="background">Comparison</h2>
+    <P>The description of the pros and cons of the most important Javascript features in the form of a table</P>
+
+    <!-- Pros Table -->
+    <h2>Pros</h2>
+    <table>
+      
+        <tr>
+          <th></th>
+            <th>Example code</th>
+            <th>Source</th>
+            <th>Extra comment</th>
+        </tr>
+        <tr>
+          <tr>
+            <td>JavaScript facilitates the development of features like form validation, animations, and interactive user interfaces, enhancing user engagement.</td>
+            <td><code>document.getElementById("button").addEventListener("click", function() 
+              {
+              alert("Button clicked!");
+          }); </code></td>
+            <td><a href="example.com">example.com</a></td>
+            <td><img src="Pic - 1.png" alt="Code" style="width: 400px; height: 90px;"></td>
+        </tr>
+    </table>
+
+    <!-- Cons Table -->
+    <h2>Cons</h2>
+    <table>
+        <tr>
+            <th></th>
+            <th>Example code</th>
+            <th>Source</th>
+            <th>Extra comment</th>
+        </tr>
+        <tr>
+            <td>Testing and debugging across multiple browsers and versions are necessary to identify and address compatibility issues, adding complexity to development efforts.</td>
+            <td><code>document.getElementById("element").classList.toggle("hidden"); </code></td>
+            <td><a href="example.com">example.com</a></td>
+            <td><img src="Pic - 3.png" alt="Code" style="width: 370px; height: 40px;"></td>
+        </tr>
+    </table>
+
+    <h3 class="background">Conclusion - Why Javascript?</h3>
+    <p>For me to choose Javascript is due to its versatility, enabling the creation of dynamic and interactive web experiences. </p>
+    <p>Its widespread adoption across browsers ensures compatibility, providing a consistent experience for users across different platforms. <p>JavaScript's rich ecosystem of libraries and frameworks simplifies development tasks and accelerates time-to-market. </p>
+    <p>It empowers developers to build modern and feature-rich web applications efficiently.</p>
+    <p>Additionally, its community-driven support fosters innovation and collaboration, further solidifying its popularity among developers and users alike.</p>
+
+    <h3 class="background">Some of Links to learn JavaScript</h3>
+    <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide</a></li>
+        <li><a href="https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures">https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures</a></li>
+        <li><a href="https://javascript.info/">https://javascript.info/</a></li>
+    </ul>
+    
+    <h3 class="background">Feedback</h3>
+    <div class="form-container">
+        <form id="formSubmit" name="formSubmit">
+            <label for="name">Name</label>
+        
+            <input type="text" id="name" class="name" value="">
+
+            <label for="email">Email</label>
+        
+            <input type="email" id="email" class="email" value="">
+            
+            <p>Options</p>
+            <select name="elements" id="elements" onchange="getJsonData()">
+                
+                <option value="Bachelors" selected>Bachelors</option>
+                <option value="Masters">Masters</option>
+               
+            </select>
+
+            <div id="json_data_values"></div>
+
+            <p>Comment</p>
+        
+            <textarea type="text" name="comment" value="comment" id="comment"></textarea>
+
+            <button type="submit" name="submit" class="submit">Submit</button>
+
+            <ol id="list" style="list-style-type: none;"></ol>
+
+        </form>
+    </div>
+
+    
+    <div id="feedbackContainer"></div>
+
+    <style>
+        body{
+  margin: auto;
+  max-width: 800px; 
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.background {
+  color:#FF5733; 
+  text-align: center;
+  font-size: 30px; 
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto; 
+  background-color: #4CAF50; 
+  padding: 20px; 
+  border-collapse: collapse;
+}
+
+.grid-item {
+  padding: 15px; 
+  font-size: 14px; 
+  text-align: center;
+  max-width: 200px; 
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.form-container {
+  margin-bottom: 40px; 
+  padding: 20px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin: 8px 0; 
+  padding: 8px; 
+}
+
+.name, .email {
+  border-radius: 8px; 
+  border: 1px solid #ccc; 
+  transition: .3s border-color;
+}
+
+.name, .email:hover {
+  border: 1px solid #999; 
+}
+
+label {
+  display: block;
+  margin-bottom: 6px; 
+  position: relative;
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+label input[type=radio] {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+label span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px; 
+  height: 16px; 
+  background-color: #ddd;
+  border-radius: 50%;
+  transition: .3s background-color;
+}
+
+label span:after {
+  content: "";
+  position: absolute;
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color:#fff;
+  width: 6px; 
+  height: 6px; 
+  border-radius: 50%;
+}
+
+label:hover span {
+  background-color: #ccc;
+}
+
+label input:checked ~ span {
+  background-color: #FFC300; 
+}
+
+label input:checked ~ span:after {
+  display: block;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 12px; 
+  border-radius: 12px; 
+  border: 1px solid #ccc; 
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1); 
+  height: 120px; 
+}
+
+select {
+  width: 100%;
+  padding: 8px; 
+  border-radius: 8px; 
+}
+
+.submit {
+  display: block;
+  width: 100%;
+  margin: 8px 0; 
+  padding: 8px; 
+}
+
+    </style>
+
+    <script>
+       
+        async function fetchQuestions(educationPhase) {
+            try {
+                const response = await fetch(`http://localhost:3000/questions/${educationPhase}`);
+                const questions = await response.json();
+                return questions;
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+                return [];
+            }
+        }
+
+       
+        async function fetchFeedbacks() {
+            try {
+                const response = await fetch('http://localhost:3000/feedbacks');
+                const feedbacks = await response.json();
+
+             
+                const feedbackContainer = document.getElementById("feedbackContainer");
+                feedbackContainer.innerHTML = "";
+
+                feedbacks.forEach(feedback => {
+                    const feedbackElement = document.createElement("p");
+                    feedbackElement.innerHTML = `
+                        <strong>Name:</strong> ${feedback.name}<br>
+                        <strong>Email:</strong> ${feedback.email}<br>
+                        <strong>Education Phase:</strong> ${feedback.educationPhase}<br>
+                        <strong>Comments:</strong> ${feedback.comments}<br>
+                        <hr>
+                    `;
+                    feedbackContainer.appendChild(feedbackElement);
+                });
+            } catch (error) {
+                console.error('Error fetching feedbacks:', error);
+            }
+        }
+
+        async function updateAdditionalQuestions() {
+            const educationPhase = document.getElementById("educationPhase").value;
+            const questionsData = await fetchQuestions(educationPhase);
+
+            
+    const additionalQuestionsContainer = document.getElementById("additionalQuestionsContainer");
+            additionalQuestionsContainer.innerHTML = "";
+
+            if (questionsData.length > 0) {
+                questionsData.forEach(question => {
+                    const questionElement = document.createElement("label");
+                    questionElement.innerHTML = question.title;
+                    additionalQuestionsContainer.appendChild(questionElement);
+
+                    if (question.type === "rate") {
+                        const selectElement = document.createElement("select");
+                        selectElement.name = "additional_question_" + question.id;
+
+                        question.options.forEach(option => {
+                            const optionElement = document.createElement("option");
+                            optionElement.value = option;
+                            optionElement.text = option;
+                            selectElement.appendChild(optionElement);
+                        });
+
+                        additionalQuestionsContainer.appendChild(selectElement);
+                    } else if (question.type === "free") {
+                        const textareaElement = document.createElement("textarea");
+                        textareaElement.name = "additional_question_" + question.id;
+                        textareaElement.rows = "4";
+                        additionalQuestionsContainer.appendChild(textareaElement);
+                    }
+                });
+            }
+        }
+
+       
+        async function submitForm() {
+        
+            const selectedEducationPhase = document.getElementById("educationPhase").value;
+
+           
+            await updateAdditionalQuestions();
+
+           
+            const formData = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                educationPhase: selectedEducationPhase,
+                ratingEducationCenter:
+                document.getElementById("ratingEducationCenter").value,
+                comments: document.getElementById("comments").value,
+                question: document.getElementById("question").value
+            };
+            const additionalQuestionsContainer = document.getElementById("additionalQuestionsContainer");
+            const additionalQuestionInputs = additionalQuestionsContainer.querySelectorAll('select, textarea');
+            additionalQuestionInputs.forEach(input => {
+                formData[input.name] = input.value;
+            });
+
+            
+            try {
+                const response = await fetch('http://localhost:3000/submitFeedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.ok) {
+                    alert('Feedback submitted successfully!');
+                    await fetchFeedbacks();
+                } else {
+                    alert('Failed to submit feedback. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting feedback:', error);
+                alert('Failed to submit feedback. Please try again.');
+            }
+        }
+
+        
+        document.addEventListener("DOMContentLoaded", async function () {
+            const educationPhaseDropdown = document.getElementById("educationPhase");
+            
+            if (educationPhaseDropdown.options.length === 1) {
+        const bachelorOption = document.createElement("option");
+        bachelorOption.value = "Bachelors";
+        bachelorOption.text = "Bachelors";
+        educationPhaseDropdown.appendChild(bachelorOption);
+
+        const masterOption = document.createElement("option");
+        masterOption.value = "Masters";
+        masterOption.text = "Masters";
+        educationPhaseDropdown.appendChild(masterOption);}
+        });
+    </script>
+
+</body>
+</html>
