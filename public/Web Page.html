@@ -80,40 +80,29 @@
         <li><a href="https://javascript.info/">https://javascript.info/</a></li>
     </ul>
     
-    <h3 class="background">Feedback</h3>
+    <h3 class="background">Feedback form</h3>
     <div class="form-container">
-        <form id="formSubmit" name="formSubmit">
-            <label for="name">Name</label>
-        
-            <input type="text" id="name" class="name" value="">
+      <form id="formSubmit" name="formSubmit">
+          <label for="name">Name</label>
+          <input type="text" id="name" class="name" value="">
 
-            <label for="email">Email</label>
-        
-            <input type="email" id="email" class="email" value="">
-            
-            <p>Options</p>
-            <select name="elements" id="elements" onchange="getJsonData()">
-                
-                <option value="Bachelors" selected>Bachelors</option>
-                <option value="Masters">Masters</option>
-               
-            </select>
+          <label for="email">Email</label>
+          <input type="email" id="email" class="email" value="">
+          
+          <p>Education Phase</p>
+          <select name="elements" id="elements" onchange="updateAdditionalQuestions()">
+              <option value="Bachelors" selected>Bachelors</option>
+              <option value="Masters">Masters</option>
+          </select>
 
-            <div id="json_data_values"></div>
+          <div id="additionalQuestionsContainer"></div>
 
-            <p>Comment</p>
-        
-            <textarea type="text" name="comment" value="comment" id="comment"></textarea>
+          <label for="comment">Comment</label>
+          <textarea name="comment" id="comment"></textarea>
 
-            <button type="submit" name="submit" class="submit">Submit</button>
-
-            <ol id="list" style="list-style-type: none;"></ol>
-
-        </form>
-    </div>
-
-    
-    <div id="feedbackContainer"></div>
+          <button type="button" onclick="submitForm()" class="submit">Submit</button>
+      </form>
+  </div>
 
     <style>
         body{
@@ -246,10 +235,8 @@ select {
 }
 
     </style>
-
     <script>
-       
-        async function fetchQuestions(educationPhase) {
+     async function fetchQuestions(educationPhase) {
             try {
                 const response = await fetch(`http://localhost:3000/questions/${educationPhase}`);
                 const questions = await response.json();
@@ -260,38 +247,10 @@ select {
             }
         }
 
-       
-        async function fetchFeedbacks() {
-            try {
-                const response = await fetch('http://localhost:3000/feedbacks');
-                const feedbacks = await response.json();
-
-             
-                const feedbackContainer = document.getElementById("feedbackContainer");
-                feedbackContainer.innerHTML = "";
-
-                feedbacks.forEach(feedback => {
-                    const feedbackElement = document.createElement("p");
-                    feedbackElement.innerHTML = `
-                        <strong>Name:</strong> ${feedback.name}<br>
-                        <strong>Email:</strong> ${feedback.email}<br>
-                        <strong>Education Phase:</strong> ${feedback.educationPhase}<br>
-                        <strong>Comments:</strong> ${feedback.comments}<br>
-                        <hr>
-                    `;
-                    feedbackContainer.appendChild(feedbackElement);
-                });
-            } catch (error) {
-                console.error('Error fetching feedbacks:', error);
-            }
-        }
-
         async function updateAdditionalQuestions() {
-            const educationPhase = document.getElementById("educationPhase").value;
+            const educationPhase = document.getElementById("elements").value;
             const questionsData = await fetchQuestions(educationPhase);
-
-            
-    const additionalQuestionsContainer = document.getElementById("additionalQuestionsContainer");
+            const additionalQuestionsContainer = document.getElementById("additionalQuestionsContainer");
             additionalQuestionsContainer.innerHTML = "";
 
             if (questionsData.length > 0) {
@@ -322,31 +281,20 @@ select {
             }
         }
 
-       
         async function submitForm() {
-        
-            const selectedEducationPhase = document.getElementById("educationPhase").value;
-
-           
-            await updateAdditionalQuestions();
-
-           
             const formData = {
                 name: document.getElementById("name").value,
                 email: document.getElementById("email").value,
-                educationPhase: selectedEducationPhase,
-                ratingEducationCenter:
-                document.getElementById("ratingEducationCenter").value,
-                comments: document.getElementById("comments").value,
-                question: document.getElementById("question").value
+                educationPhase: document.getElementById("elements").value,
+                comment: document.getElementById("comment").value
             };
+
             const additionalQuestionsContainer = document.getElementById("additionalQuestionsContainer");
             const additionalQuestionInputs = additionalQuestionsContainer.querySelectorAll('select, textarea');
             additionalQuestionInputs.forEach(input => {
                 formData[input.name] = input.value;
             });
 
-            
             try {
                 const response = await fetch('http://localhost:3000/submitFeedback', {
                     method: 'POST',
@@ -358,6 +306,7 @@ select {
 
                 if (response.ok) {
                     alert('Feedback submitted successfully!');
+                    // Refresh feedbacks after submission
                     await fetchFeedbacks();
                 } else {
                     alert('Failed to submit feedback. Please try again.');
@@ -368,22 +317,37 @@ select {
             }
         }
 
-        
+        async function fetchFeedbacks() {
+            try {
+                const response = await fetch('http://localhost:3000/feedbacks');
+                const feedbacks = await response.json();
+                const feedbackContainer = document.getElementById("feedbackContainer");
+                feedbackContainer.innerHTML = "";
+
+                feedbacks.forEach(feedback => {
+                    const feedbackElement = document.createElement("div");
+                    feedbackElement.innerHTML = `
+                        <strong>Name:</strong> ${feedback.name}<br>
+                        <strong>Email:</strong> ${feedback.email}<br>
+                        <strong>Education Phase:</strong> ${feedback.educationPhase}<br>
+                        <strong>Comment:</strong> ${feedback.comment}<br>
+                        <hr>
+                    `;
+                    feedbackContainer.appendChild(feedbackElement);
+                });
+            } catch (error) {
+                console.error('Error fetching feedbacks:', error);
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", async function () {
-            const educationPhaseDropdown = document.getElementById("educationPhase");
-            
-            if (educationPhaseDropdown.options.length === 1) {
-        const bachelorOption = document.createElement("option");
-        bachelorOption.value = "Bachelors";
-        bachelorOption.text = "Bachelors";
-        educationPhaseDropdown.appendChild(bachelorOption);
-
-        const masterOption = document.createElement("option");
-        masterOption.value = "Masters";
-        masterOption.text = "Masters";
-        educationPhaseDropdown.appendChild(masterOption);}
+            // Fetch feedbacks on page load
+            await fetchFeedbacks();
+            // Update additional questions based on education phase dropdown
+            updateAdditionalQuestions();
         });
-    </script>
+  </script>
 
+    
 </body>
 </html>
