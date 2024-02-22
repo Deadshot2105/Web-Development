@@ -92,8 +92,11 @@ app.get('/questions/:educationPhase', (req, res) => {
     }
 });
    app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'mypage.html'));
+    res.sendFile(path.join(__dirname, 'public', 'Web Page.html'));
 });
      app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+
+
