@@ -103,6 +103,7 @@
           <button type="button" onclick="submitForm()" class="submit">Submit</button>
       </form>
   </div>
+  <div id="feedbackContainer"></div>
 
     <style>
         body{
@@ -237,15 +238,15 @@ select {
     </style>
     <script>
      async function fetchQuestions(educationPhase) {
-            try {
-                const response = await fetch(`http://localhost:3000/questions/${educationPhase}`);
-                const questions = await response.json();
-                return questions;
-            } catch (error) {
-                console.error('Error fetching questions:', error);
-                return [];
-            }
-        }
+    try {
+        const response = await fetch(`http://localhost:3000/questions/${educationPhase}`);
+        const questions = await response.json();
+        return questions;
+    } catch (error) {
+        console.error('Error fetching questions:', error);
+        return [];
+    }
+}
 
         async function updateAdditionalQuestions() {
             const educationPhase = document.getElementById("elements").value;
@@ -282,44 +283,59 @@ select {
         }
 
         async function submitForm() {
-            const formData = {
-                name: document.getElementById("name").value,
-                email: document.getElementById("email").value,
-                educationPhase: document.getElementById("elements").value,
-                comment: document.getElementById("comment").value
-            };
+        const formData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            educationPhase: document.getElementById("elements").value,
+            comment: document.getElementById("comment").value
+        };
 
-            const additionalQuestionsContainer = document.getElementById("additionalQuestionsContainer");
-            const additionalQuestionInputs = additionalQuestionsContainer.querySelectorAll('select, textarea');
-            additionalQuestionInputs.forEach(input => {
-                formData[input.name] = input.value;
+        const additionalQuestionsContainer = document.getElementById("additionalQuestionsContainer");
+        const additionalQuestionInputs = additionalQuestionsContainer.querySelectorAll('select, textarea');
+        additionalQuestionInputs.forEach(input => {
+            formData[input.name] = input.value;
+        });
+
+        try {
+            const response = await fetch('http://localhost:3000/submitFeedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
             });
 
-            try {
-                const response = await fetch('http://localhost:3000/submitFeedback', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
+            if (response.ok) {
+                const responseData = await response.json();
+                alert('Feedback submitted successfully!');
 
-                if (response.ok) {
-                    alert('Feedback submitted successfully!');
-                    // Refresh feedbacks after submission
-                    await fetchFeedbacks();
-                } else {
-                    alert('Failed to submit feedback. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error submitting feedback:', error);
+                document.getElementById("name").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("comment").value = "";
+                additionalQuestionsContainer.innerHTML = "";
+
+                //feedback
+                const feedbackContainer = document.getElementById("feedbackContainer");
+                const feedbackElement = document.createElement("div");
+                feedbackElement.innerHTML = `
+                    <strong>Name:</strong> ${responseData.feedback.name}<br>
+                    <strong>Email:</strong> ${responseData.feedback.email}<br>
+                    <strong>Education Phase:</strong> ${responseData.feedback.educationPhase}<br>
+                    <strong>Comment:</strong> ${responseData.feedback.comment}<br>
+                    <hr>
+                `;
+                feedbackContainer.appendChild(feedbackElement);
+            } else {
                 alert('Failed to submit feedback. Please try again.');
             }
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            alert('Failed to submit feedback. Please try again.');
         }
-
+    }
         async function fetchFeedbacks() {
             try {
-                const response = await fetch('http://localhost:3000/feedbacks');
+              const response = await fetch('http://localhost:3000/feedbacks');
                 const feedbacks = await response.json();
                 const feedbackContainer = document.getElementById("feedbackContainer");
                 feedbackContainer.innerHTML = "";
@@ -341,9 +357,9 @@ select {
         }
 
         document.addEventListener("DOMContentLoaded", async function () {
-            // Fetch feedbacks on page load
+            
             await fetchFeedbacks();
-            // Update additional questions based on education phase dropdown
+            
             updateAdditionalQuestions();
         });
   </script>
